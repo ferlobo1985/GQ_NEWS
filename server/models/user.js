@@ -51,6 +51,14 @@ userSchema.pre('save',function(next){
     }
 });
 
+userSchema.methods.comparePassword = function(candidatePassword){
+    return bcrypt.compare(candidatePassword,this.password).then(function(result){
+        return result
+    });
+}
+
+
+
 userSchema.methods.generateToken = async function(){
     var user = this;
     var token = jwt.sign({email:user.email},process.env.SECRET,{

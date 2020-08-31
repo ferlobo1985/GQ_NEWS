@@ -4,7 +4,23 @@ const { UserInputError, AuthenticationError, ApolloError } = require('apollo-ser
 module.exports = {
     Mutation:{
         authUser: async(parent,args,context,info)=>{
-            return true
+            try{
+                /// CHECK THE MAIL
+                const user = await User.findOne({
+                    'email': args.fields.email
+                });
+                if(!user) {throw new AuthenticationError('Bad email'); }
+                /// CHECK PASSWORD
+                
+
+                /// USER MUST BE RIGHT, LOG IN
+
+
+                /// RETURN 
+
+            } catch(err){
+                throw err
+            }
         },
         signUp: async(parent,args,context,info)=>{
             try{
