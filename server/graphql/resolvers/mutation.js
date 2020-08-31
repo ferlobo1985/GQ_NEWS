@@ -11,13 +11,21 @@ module.exports = {
                 });
                 if(!user) {throw new AuthenticationError('Bad email'); }
                 /// CHECK PASSWORD
-                
-
+                const checkpass = await user.comparePassword(args.fields.password);
+                if(!checkpass) {throw new AuthenticationError('Wrong password'); }
+       
                 /// USER MUST BE RIGHT, LOG IN
-
+                const getToken = await user.generateToken();
+                if(!getToken) { 
+                    throw new AuthenticationError('Something went wrong, try again');
+                }
 
                 /// RETURN 
-
+                return {
+                    _id:user._id,
+                    email:user.email,
+                    token: getToken.token
+                };
             } catch(err){
                 throw err
             }
