@@ -14,7 +14,7 @@ module.exports = {
 
                 const getToken = await user.generateToken();
                 if(!getToken) { 
-                    
+                    throw err
                 }
 
                 const result = await user.save();
