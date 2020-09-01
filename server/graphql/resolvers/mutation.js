@@ -1,5 +1,7 @@
 const { User } = require('../../models/user');
 const { UserInputError, AuthenticationError, ApolloError } = require('apollo-server-express')
+const authorize = require('../../utils/isAuth');
+const { userOwnership } = require('../../utils/tools');
 
 module.exports = {
     Mutation:{
@@ -50,5 +52,29 @@ module.exports = {
                 throw err
             }
         },
+        updateUserProfile:async(parent,args,context,info)=>{
+            try{
+                const req = authorize(context.req);
+
+                if(!userOwnership(req,args._id))
+                throw new AuthenticationError("You dont own this user");
+
+                //// validate fields, please
+
+                const user = await User.findOneAndUpdate(
+                    {_id:args._id},
+                    {
+                        "$set":{
+                            name:args.name,
+                            lastname:args.lastname
+                        }
+                    },
+                    { new: true }
+                );
+                return {...user._doc}
+            } catch(err){
+                throw err;
+            }
+        }
     }
 }
