@@ -75,6 +75,31 @@ module.exports = {
             } catch(err){
                 throw err;
             }
+        },
+        updateUserEmailPass: async(parent,args,context,info)=> {
+            try {
+                const req = authorize(context.req);
+
+                if(!userOwnership(req,args._id))
+                throw new AuthenticationError("You dont own this user");
+
+                const user =await User.findOne({_id:req._id});
+                if(!user) throw new AuthenticationError("Sorry, try again");
+
+                //// validate fields, please
+                if(args.email){ user.email = args.email }
+                if(args.password){ user.password = args.password }
+
+                /// USER IS RIGHT, GENERATE TOKEN
+                const getToken = await user.generateToken();
+                if(!getToken) { 
+                    throw new AuthenticationError('Something went wrong, try again');
+                }
+
+                return { ...getToken._doc, token:getToken.token}
+            } catch(err){
+                throw new ApolloError('Something went wrong, try again',err);
+            }
         }
     }
 }
