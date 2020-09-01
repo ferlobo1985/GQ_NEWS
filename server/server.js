@@ -16,9 +16,7 @@ const server = new ApolloServer({
     },
     context:({ req })=>{
         
-        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkOThhYjIxYjk3ZjYyMDIzYzg4MzYiLCJlbWFpbCI6ImZyYW5jaXNAZ21haWwuY29tIiwiaWF0IjoxNTk4OTIwODc1LCJleHAiOjE1OTk1MjU2NzV9.3U-sq83wVHM_AJyWid7TsVT58aNwVxr0dtdFnhzz7XE';
-
-        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkOThhYjIxYjk3ZjYyMDIzYzg4MzYiLCJlbWFpbCI6ImZyYW5jaXNAZ21haWwuY29tIiwiaWF0IjoxNTk4OTIwODc1LCJleHAiOjE1OTk1MjU2NzV9.3U-sq83wVHM_AJyWid7TsVT58aNwVxr0dtdFnhzz7XE
+        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkOThhYjIxYjk3ZjYyMDIzYzg4MzYiLCJlbWFpbCI6ImZyYW5jaXNfanVuaW9uQGdtYWlsLmNvbSIsImlhdCI6MTU5ODkyNzMyNiwiZXhwIjoxNTk5NTMyMTI2fQ.c3O_oquoPQ6EJ0aFNeFXO3PRyiq5M9Au-lHRUIVN7kQ';
 
         return {req}
     }
