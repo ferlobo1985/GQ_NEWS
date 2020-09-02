@@ -1,6 +1,8 @@
 const { AuthenticationError } = require('apollo-server-express')
 const { User } = require('../../models/user');
+const { Category } = require('../../models/category');
 const authorize = require('../../utils/isAuth');
+
 
 module.exports = {
     Query:{
@@ -25,6 +27,19 @@ module.exports = {
                     throw new AuthenticationError('Bad token');
                 }
                 return { _id:req._id,email:req.email,token:req.token }
+            }catch(err){
+                throw err;
+            }
+        },
+        categories:async(parent,{catId},context,info)=>{
+            try{
+                let catQuery = {};
+                if(catId){
+                    catQuery['_id'] = catId
+                }
+
+                const categories = await Category.find(catQuery);
+                return categories;
             }catch(err){
                 throw err;
             }
