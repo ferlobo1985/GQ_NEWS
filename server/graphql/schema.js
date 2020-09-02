@@ -15,6 +15,8 @@ const typeDefs = gql`
         authUser(fields:AuthInput!):User!
         signUp(fields:AuthInput!):User!
         createPost(fields:PostInput!):Post!
+        updatePost(fields:PostInput!,postId:ID!):Post!
+        deletePost(postId:ID!):Post
         createCategory(name:String!):Category!
     }
 
@@ -28,6 +30,7 @@ const typeDefs = gql`
         status: PostStatus
         author: User!
         category:Category!
+        related(sort:SortInput):[Post!]
     }
 
     type User {
@@ -37,7 +40,7 @@ const typeDefs = gql`
         name:String
         lastname:String
         token:String
-        posts:[Post!]!
+        posts(sort:SortInput):[Post!]!
         categories:[Category!]!
     }
 

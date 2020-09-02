@@ -1,7 +1,7 @@
 const { User } = require('../../models/user');
 const { Post } = require('../../models/post');
 const { Category } = require('../../models/category');
-
+const { sortArgsHelper } = require('../../utils/tools');
 
 module.exports = {
     Post:{
@@ -28,6 +28,21 @@ module.exports = {
                 }
             } catch(err){
                 throw err
+            }
+        },
+        related: async(parent,{ sort },context,info)=> {
+            try{
+                let sortArgs = sortArgsHelper(sort);
+
+                const posts = await Post
+                .find({"category": parent.category})
+                .sort([[sortArgs.sortBy,sortArgs.order]])
+                .skip(sortArgs.skip)
+                .limit(sortArgs.limit);
+
+                return posts;
+            } catch(err) {
+                throw err;
             }
         }
     }

@@ -136,6 +136,48 @@ module.exports = {
             } catch(err){
                 throw err                
             }
+        },
+        updatePost:  async(parent,{fields,postId},context,info)=> {
+            try{
+                const req = authorize(context.req);
+                const post = await Post.findOne({'_id': postId});
+                /// thorw error if you wish
+
+                if(!userOwnership(req,post.author))
+                throw new AuthenticationError('Unauthorized, sorry');
+
+                // if(post.title != fields.title){
+                //     post.title = fields.title
+                // } else {
+                //     /// nothing
+                // }
+                for(key in fields){
+                    if(post[key] != fields[key]){
+                        post[key] = fields[key];
+                    }
+                }
+
+                const result = await post.save();
+                return {...result._doc}
+            } catch(err){
+                throw err
+            }
+
+        },
+        deletePost: async(parent,{postId},context,info)=> {
+            try{
+                const req = authorize(context.req);
+                const post = await Post.findByIdAndRemove(postId);
+                if(!post) throw new UserInputError('Sorry.Not able to find your post or it was deleted already')
+
+                ////  WARNING !!!!!!  find post...AND THE DELETE
+                // if(!userOwnership(req,post.author))
+                // throw new AuthenticationError('Unauthorized, sorry');
+                //////////
+                return post;
+            } catch(err){
+                throw err
+            }
         }
     }
 }
