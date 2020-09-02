@@ -12,6 +12,7 @@ const typeDefs = gql`
         authUser(fields:AuthInput!):User!
         signUp(fields:AuthInput!):User!
         createPost(fields:PostInput!):Post!
+        createCategory(name:String!):Category!
     }
 
     type Post {
@@ -33,6 +34,14 @@ const typeDefs = gql`
         lastname:String
         token:String
     }
+
+    type Category { 
+        _id: ID!
+        name: String!
+        author: User!
+        posts: [Post]
+    }
+
 
     input AuthInput {
         email:String!
