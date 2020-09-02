@@ -178,6 +178,37 @@ module.exports = {
             } catch(err){
                 throw err
             }
-        }
+        },
+        updateCategory: async(parent,{ catId,name },context,info)=> { 
+            try {
+                const req = authorize(context.req);
+                const category = await Category.findOneAndUpdate(
+                    { _id: catId },
+                    {
+                        "$set":{
+                            name
+                        }
+                    },
+                    { new: true}
+                );
+                /// throw..
+                return { ...category._doc }
+            } catch( err ) {
+                throw err
+            }
+
+        },
+        deleteCategory: async(parent,{ catId },context,info)=> { 
+            try {
+                const req = authorize(context.req);
+                const category = await Category.findByIdAndRemove(catId);
+                if(!category) throw new UserInputError('Sorry.Not able to find your category or it was deleted already')
+               
+                return category;
+            } catch( err ) {
+                throw err
+            }
+
+        },
     }
 }
