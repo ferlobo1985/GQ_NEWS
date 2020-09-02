@@ -22,8 +22,9 @@ const typeDefs = gql`
         content: String!
         created_at: String
         updated_at: String
-        author: User!
         status: PostStatus
+        author: User!
+        category:Category!
     }
 
     type User {
@@ -33,6 +34,8 @@ const typeDefs = gql`
         name:String
         lastname:String
         token:String
+        posts:[Post!]!
+        categories:[Category!]!
     }
 
     type Category { 
@@ -53,6 +56,7 @@ const typeDefs = gql`
         excerpt: String
         content: String
         status: PostStatus
+        category: ID
     }
 
     enum PostStatus {
