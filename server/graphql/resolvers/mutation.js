@@ -1,4 +1,6 @@
 const { User } = require('../../models/user');
+const { Post } = require('../../models/post');
+
 const { UserInputError, AuthenticationError, ApolloError } = require('apollo-server-express')
 const authorize = require('../../utils/isAuth');
 const { userOwnership } = require('../../utils/tools');
@@ -99,6 +101,23 @@ module.exports = {
                 return { ...getToken._doc, token:getToken.token}
             } catch(err){
                 throw new ApolloError('Something went wrong, try again',err);
+            }
+        },
+        createPost: async(parent,{ fields },context,info)=> {
+            try {
+                const req = authorize(context.req);
+                /// validate...
+                const post = new Post({
+                    title: fields.title,
+                    excerpt:fields.excerpt,
+                    content:fields.content,
+                    author: req._id,
+                    status: fields.status
+                });
+                const result = await post.save();
+                return { ...result._doc };
+            } catch(err){
+                throw err                
             }
         }
     }
