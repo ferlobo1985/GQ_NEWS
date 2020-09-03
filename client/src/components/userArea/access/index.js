@@ -21,7 +21,7 @@ const UserAccess = () => {
             .email('Invalid email')
             .required('Sorry the email is required'),
             password: Yup.string()
-            .min(5,'Must be more than 5 char')
+            .min(3,'Must be more than 5 char')
             .required('Sorry the password is required')
         }),
         onSubmit: values => { 

@@ -6,11 +6,25 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const signupUser = async(userData)=>{
     try{
-        console.log(userData);
+        const { data } = await axios({data:{
+            query:`mutation{
+                signUp(
+                    fields:{
+                        email:"${userData.email}"
+                        password:"${userData.password}"
+                    }
+                ){
+                    _id
+                    email
+                    token
+                }
+            }`
+        }});
 
-      //  const { } = await axios()
-        
-
+        return {
+            auth: data.data ? data.data.signUp : null,
+            errors: data.errors
+        }
     } catch(error){
         console.log(error);
     }
