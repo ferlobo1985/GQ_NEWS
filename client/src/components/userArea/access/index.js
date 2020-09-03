@@ -4,8 +4,12 @@ import { Form, Button, Row ,Col, Alert} from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { useDispatch } from 'react-redux';
+import { signupUser } from '../../../store/actions';
 
 const UserAccess = () => {
+    const dispatch = useDispatch();
+
     const [type,setType] = useState(true);
     const formik = useFormik({
         initialValues:{
@@ -21,12 +25,22 @@ const UserAccess = () => {
             .required('Sorry the password is required')
         }),
         onSubmit: values => { 
-            console.log(values)
+           onSubmitHandler(values);
         }
     }) 
 
     const switchTypeHandler = () => {
         setType(!type)
+    }
+
+    const onSubmitHandler = (values) => {
+        if(type){
+            // sign in
+        } else {
+            // register
+            dispatch(signupUser(values))
+
+        }
     }
 
 
