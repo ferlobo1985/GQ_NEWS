@@ -7,8 +7,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useDispatch } from 'react-redux';
-import { signupUser } from '../../../store/actions';
-import { propTypes } from 'react-bootstrap/esm/Image';
+import { signupUser, loginUser } from '../../../store/actions';
+
 
 const UserAccess = (props) => {
     const dispatch = useDispatch();
@@ -39,7 +39,9 @@ const UserAccess = (props) => {
     const onSubmitHandler = (values) => {
         if(type){
             // sign in
-
+            dispatch(loginUser(values)).then(({payload})=>{
+                successHandler(payload);
+            })
         } else {
             // register
             dispatch(signupUser(values)).then(({payload})=>{
@@ -61,6 +63,12 @@ const UserAccess = (props) => {
             props.history.push('/user_area');
         }
     }
+
+    useEffect(()=>{
+        return function cleanup(){
+            // dispatch to clear user error.
+        }
+    },[])
 
 
     return(
