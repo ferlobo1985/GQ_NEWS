@@ -1,13 +1,16 @@
 import React,{ useState, useEffect } from 'react';
-import { Form, Button, Row ,Col, Alert} from 'react-bootstrap';
+import { Form, Button, Row ,Col, Alert, Toast} from 'react-bootstrap';
+import axios from 'axios';
+import ToastHandler from '../../utils/toasts';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useDispatch } from 'react-redux';
 import { signupUser } from '../../../store/actions';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
-const UserAccess = () => {
+const UserAccess = (props) => {
     const dispatch = useDispatch();
 
     const [type,setType] = useState(true);
@@ -36,10 +39,26 @@ const UserAccess = () => {
     const onSubmitHandler = (values) => {
         if(type){
             // sign in
+
         } else {
             // register
-            dispatch(signupUser(values))
+            dispatch(signupUser(values)).then(({payload})=>{
+                successHandler(payload);
+            })
+        }
+    }
 
+
+    const successHandler = (payload) =>{
+        const errors = payload.errors;
+        const auth = payload.auth;
+
+        if(errors) { ToastHandler(errors,'ERROR') }
+        if(auth){
+            localStorage.setItem('X-AUTH',auth.token);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth.token;
+            ToastHandler('Welcome','SUCCESS')
+            props.history.push('/user_area');
         }
     }
 

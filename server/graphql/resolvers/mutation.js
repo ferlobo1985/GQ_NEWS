@@ -50,10 +50,10 @@ module.exports = {
 
                 return { ...getToken._doc}
             } catch(err){
-                if(err.code === 11000){
-                    throw new AuthenticationError('Sorry, duplicated email. try a new on, dummy');
-                }
-                throw err
+                // if(err.code === 11000){
+                //     throw new AuthenticationError('Sorry, duplicated email. try a new on, dummy');
+                // }
+                throw new ApolloError('Sorry something went wrong',null,err)
             }
         },
         updateUserProfile:async(parent,args,context,info)=>{
