@@ -24,3 +24,8 @@ export const logoutUser = () => {
     }
 }
 
+
+export const updateUserEmailPass = (email,password,id) => ({
+    type:'AUTH_USER',
+    payload: api.updateUserEmailPass(email,password,id)
+})

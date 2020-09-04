@@ -69,3 +69,34 @@ export const autoSignIn = async()=>{
         console.log(err)
     }
 }
+
+
+export const updateUserEmailPass  = async(email,password,id)=>{ 
+    try{
+        const { data } = await axios({data:{
+            query:`mutation{
+                updateUserEmailPass(
+                    email:"${email}"
+                    password:"${password}"
+                    _id:"${id}"
+                ){
+                    _id
+                    token
+                    email
+                }
+            }`
+        }});
+
+        if(data.errors){
+            return { errors:data.errors}
+        } else {
+            localStorage.setItem('X-AUTH', data.data.updateUserEmailPass.token);
+        }
+        return  {
+            auth: data.data ? data.data.updateUserEmailPass : null
+        }
+    } catch(err){
+        console.log(err)
+    }
+
+}

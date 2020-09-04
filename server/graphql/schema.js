@@ -11,7 +11,7 @@ const typeDefs = gql`
 
     type Mutation {
         updateUserEmailPass(email:String!,password:String,_id:ID!):User!
-        updateUserProfile(name:String,lastname:String,_id:ID!):User!
+        updateUserProfile(name:String,lastname:String,_id:ID!):User! #ADD IT LATER 
         authUser(fields:AuthInput!):User!
         signUp(fields:AuthInput!):User!
         createPost(fields:PostInput!):Post!
