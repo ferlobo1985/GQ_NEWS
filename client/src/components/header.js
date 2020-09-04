@@ -1,9 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+
+const Header = (props) =>{
+    const { history } = props;
+    const user = useSelector(state => state.user);
 
 
-const Header = () =>{
     return(
         <>
             <Navbar className="bg-custom" variant="dark">
@@ -13,13 +18,23 @@ const Header = () =>{
             </Navbar>
             <Navbar className="bg-custom-small" variant="dark">
                 <Nav>
-                    <LinkContainer to="/sign_in">
-                        <Nav.Link> Sign in </Nav.Link>
-                    </LinkContainer>
+                    { user.auth ?
+                        <> 
+                            <Nav.Link> Logout </Nav.Link>
+
+                            <LinkContainer to="/user_area">
+                                <Nav.Link> User </Nav.Link>
+                            </LinkContainer>
+                        </>
+                        :
+                        <LinkContainer to="/sign_in">
+                            <Nav.Link> Sign in </Nav.Link>
+                        </LinkContainer>
+                    }
                 </Nav>
             </Navbar>
         </>
     )
 }
 
-export default Header;
+export default withRouter(Header);

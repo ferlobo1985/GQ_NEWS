@@ -53,3 +53,19 @@ export const loginUser = async(userData)=>{
 
 }
 
+
+export const autoSignIn = async()=>{
+    try{
+        const { data } = await axios({
+            data:{
+                query:`query{ isAuth{ _id, email, token}}`
+            }
+        });
+        if(data.errors) localStorage.removeItem('X-AUTH');
+        return {
+            auth: data.data ? data.data.isAuth : null
+        }
+    } catch(err){
+        console.log(err)
+    }
+}
