@@ -9,10 +9,12 @@ import ToastHandler from '../../utils/toasts';
 
 import {getCategories} from '../../../api';
 import {useDispatch} from 'react-redux';
+import { createPost , clearCreatedPost } from '../../../store/actions';
 
 
 const Create = () => {
     const [categories, setCategories] = useState(null);
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -34,8 +36,16 @@ const Create = () => {
                 category: Yup.string().required('This field is required')
             }
         ),
-        onSubmit: values => {
-            console.log(values)
+        onSubmit: (values,{ resetForm }) => {
+          dispatch(createPost(values)).then(({payload})=>{
+            if(payload.createdPost.post){
+              ToastHandler('Done!!','SUCCESS');
+              resetForm();
+            }
+            if(payload.createdPost.error){
+              ToastHandler(payload.createdPost.error,'ERROR');
+            }
+          });  
         }
     })
 
@@ -47,11 +57,16 @@ const Create = () => {
       func();
     },[setCategories])
 
+
+    useEffect(()=> () => dispatch(clearCreatedPost()),[dispatch]);
+
     return (
         <UserAreaHOC>
             <Form onSubmit={
                 formik.handleSubmit
-            }>
+            }
+            className="mt-3"
+            >
                 <Form.Group>
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" placeholder="Enter title" id="title" name="title"

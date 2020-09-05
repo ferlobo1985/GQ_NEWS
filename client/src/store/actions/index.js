@@ -36,4 +36,12 @@ export const getUserStats = (id) => ({
     payload: api.getUserStats(id)
 })
 
+export const createPost = (args) => ({
+    type:'CREATE_POST',
+    payload: api.createPost(args)
+});
 
+export const clearCreatedPost = () => ({
+    type:'CREATE_POST',
+    payload: { createdPost:null }
+})
