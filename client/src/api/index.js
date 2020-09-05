@@ -313,3 +313,38 @@ export const getPosts = async(sort,prevState)=>{
         console.log(err)
     }
 }
+
+
+
+export const getPost = async(id)=>{ 
+
+    try{
+        const body = {
+            query:`
+                query{
+                    post(id:"${id}" ){
+                        title
+                        content
+                        author { name, lastname }
+                        category { _id, name }
+                        related(sort:{ limit:4 }){
+                            _id
+                            title
+                            excerpt
+                            author { name, lastname }
+                        }
+                    }
+                }
+            `
+        };
+        const {data} = await axios({data:JSON.stringify(body)});
+        return {
+            singlePost:{
+                post: data.data ? data.data.post  : null,
+                error: data.errors
+            }
+        }
+    } catch(err){
+        console.log(err)
+    }
+}

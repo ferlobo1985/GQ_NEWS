@@ -65,3 +65,8 @@ export const getPosts = (sort,state) => ({
     type:'GET_POSTS',
     payload: api.getPosts(sort,state)
 })
+
+export const getPost = (id) => ({
+    type:'GET_POST',
+    payload: api.getPost(id)
+})
