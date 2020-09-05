@@ -50,3 +50,8 @@ export const getUserPosts = (sort,prevState, id) => ({
     type:'USER_POSTS',
     payload: api.getUserPosts(sort,prevState, id)
 })
+
+export const updatePostStatus = (status,postId,state) => ({
+    type:'UPDATE_POST',
+    payload: api.updatePostStatus(status,postId,state)
+})
