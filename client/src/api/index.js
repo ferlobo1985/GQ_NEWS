@@ -243,7 +243,6 @@ export const updatePostStatus = async(status,postId,prevState)=>{
     }
 }
 
-
 export const removePost = async(id,prevState)=>{ 
     try{
         const body = {
@@ -268,6 +267,47 @@ export const removePost = async(id,prevState)=>{
         }
         return {
             posts: newState ? newState : prevState
+        }
+    } catch(err){
+        console.log(err)
+    }
+}
+
+
+
+export const getPosts = async(sort,prevState)=>{ 
+
+    try{
+        const body = {
+            query:`
+                query GetPosts($sort:SortInput,$queryBy:QueryByInput){
+                    posts(sort:$sort, queryBy:$queryBy ){
+                        _id
+                        title
+                        content
+                        excerpt
+                        category { name }
+                        author { 
+                            name 
+                            lastname
+                        }
+                    }
+                }
+            `,
+            variables:{
+                queryBy:{key:"status",value:"PUBLIC"},
+                sort:sort
+            }
+        };
+        const {data} = await axios({data:JSON.stringify(body)});
+
+        let newState;
+        let newPosts = data.data ? data.data.posts : null
+        if(newPosts){
+            newState = [...prevState,...newPosts];
+        }
+        return {
+            homePosts: data.data ? newState : null
         }
     } catch(err){
         console.log(err)

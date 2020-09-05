@@ -60,3 +60,8 @@ export const removePost = (id,state) => ({
     type:'USER_POSTS',
     payload: api.removePost(id,state)
 })
+
+export const getPosts = (sort,state) => ({
+    type:'GET_POSTS',
+    payload: api.getPosts(sort,state)
+})
