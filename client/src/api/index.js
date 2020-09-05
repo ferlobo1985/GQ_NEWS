@@ -332,6 +332,7 @@ export const getPost = async(id)=>{
                             title
                             excerpt
                             author { name, lastname }
+                            category { _id, name }
                         }
                     }
                 }
