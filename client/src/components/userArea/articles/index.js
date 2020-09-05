@@ -19,7 +19,39 @@ const Articles = (props) =>{
 
     return(
         <UserAreaHOC>
-          
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                user.posts ?
+                  user.posts.map((item,i)=>(
+                    <tr key={i}>
+                      <td>{i+1}</td>
+                      <td>{item.title}</td>
+                      <td>{item.category.name}</td>
+                      <td
+                        className={
+                          item.status === 'DRAFT'? 'yell':'green'
+                        }
+                      >{item.status}</td>
+                      <td
+                        className="remove_btn"
+                      >
+                        Remove
+                      </td>
+                    </tr>
+                  ))
+                :null
+              }
+            </tbody>
+          </Table>
           <Button
             onClick={()=>{
               let skip = sort.skip + sort.limit;
@@ -31,6 +63,15 @@ const Articles = (props) =>{
             }}
           >
             Load more
+          </Button>
+          <Button
+            className="ml-2"
+            variant="outline-info"
+            onClick={()=>{
+              props.history.push('/user_area/create')
+            }}
+          >
+           Create new article
           </Button>
 
         </UserAreaHOC>
