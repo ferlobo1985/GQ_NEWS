@@ -53,7 +53,6 @@ export const loginUser = async(userData)=>{
 
 }
 
-
 export const autoSignIn = async()=>{
     try{
         const { data } = await axios({
@@ -69,7 +68,6 @@ export const autoSignIn = async()=>{
         console.log(err)
     }
 }
-
 
 export const updateUserEmailPass  = async(email,password,id)=>{ 
     try{
@@ -101,8 +99,6 @@ export const updateUserEmailPass  = async(email,password,id)=>{
 
 }
 
-
-
 export const getUserStats  = async(id)=>{ 
     try{
         const body = {
@@ -128,6 +124,26 @@ export const getUserStats  = async(id)=>{
         return {
             stats:data.data ? data.data.user :null
         }
+    } catch(err){
+        console.log(err)
+    }
+}
+
+
+export const getCategories  = async()=>{ 
+    try{
+        const body = {
+            query:`
+                query{
+                    categories{
+                        _id
+                        name
+                    }
+                }
+            `
+        };
+        const {data} = await axios({data:JSON.stringify(body)});
+        return data
     } catch(err){
         console.log(err)
     }
