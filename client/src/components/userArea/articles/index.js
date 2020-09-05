@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import UserAreaHOC from '../../hoc/userAreaHoc';
 import { Table,Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserPosts,updatePostStatus } from '../../../store/actions';
+import { getUserPosts,updatePostStatus, removePost } from '../../../store/actions';
 
 const Articles = (props) =>{
     const [ sort, setSort] = useReducer(
@@ -50,6 +50,9 @@ const Articles = (props) =>{
                         }
                       >{item.status}</td>
                       <td
+                        onClick={()=>{
+                          dispatch(removePost(item._id,user.posts))
+                        }}
                         className="remove_btn"
                       >
                         Remove
